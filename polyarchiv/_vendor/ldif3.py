@@ -1,7 +1,7 @@
 # coding=utf-8
 """ldif3 - generate and parse LDIF data (see RFC 2849)."""
 
-from __future__ import unicode_literals
+
 
 import base64
 import logging
@@ -10,8 +10,8 @@ from collections import OrderedDict
 
 try:  # pragma: nocover
     # noinspection PyCompatibility
-    from urlparse import urlparse
-    from urllib import urlopen
+    from urllib.parse import urlparse
+    from urllib.request import urlopen
 except ImportError:  # pragma: nocover
     # noinspection PyCompatibility,PyUnresolvedReferences
     from urllib.parse import urlparse
@@ -165,7 +165,7 @@ class LDIFParser(object):
         else:
             attr_value = line[colon_pos + 1:].strip()
 
-        if attr_type == u'dn':
+        if attr_type == 'dn':
             return attr_type, attr_value.decode('utf8')
         elif self._encoding is not None:
             try:

@@ -1,5 +1,5 @@
 # -*- coding=utf-8 -*-
-from __future__ import unicode_literals
+
 
 import datetime
 import getpass
@@ -15,9 +15,8 @@ try:
     from urllib.parse import urlparse, urlencode, quote_plus
 except ImportError:
     # noinspection PyCompatibility,PyUnresolvedReferences
-    from urlparse import urlparse
-    # noinspection PyUnresolvedReferences
-    from urllib import urlencode, quote_plus
+    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote_plus
 
 __author__ = 'Matthieu Gallet'
 
@@ -26,7 +25,7 @@ if sys.version_info[0] == 3:
     raw_input = input
 else:
     # noinspection PyUnresolvedReferences
-    text_type = unicode
+    text_type = str
 
 
 DEFAULT_EMAIL = '%s@%s' % (getpass.getuser(), socket.getfqdn())
@@ -52,9 +51,9 @@ def get_input_text(prompt):
         encoding = sys.stdin.encoding
     if sys.version_info[0] == 2:
         # noinspection PyCompatibility,PyUnresolvedReferences
-        result = raw_input(prompt).decode(encoding)
+        result = input(prompt).decode(encoding)
     else:
-        result = input(prompt)
+        result = eval(input(prompt))
     return result
 
 

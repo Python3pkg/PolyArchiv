@@ -1,7 +1,7 @@
 # -*- coding=utf-8 -*-
 """load a complete configuration (based on .ini files) and perform backup/restore operations
 """
-from __future__ import unicode_literals
+
 
 import errno
 import fnmatch
@@ -30,7 +30,7 @@ try:
     from configparser import RawConfigParser, Error as ConfigError
 except ImportError:
     # noinspection PyUnresolvedReferences,PyCompatibility
-    from ConfigParser import RawConfigParser, Error as ConfigError
+    from configparser import RawConfigParser, Error as ConfigError
 
 __author__ = 'Matthieu Gallet'
 
@@ -356,9 +356,9 @@ class Runner(ParameterizedObject):
         :rtype:
         """
         visitor.visit_runner(self)
-        collect_points = [collect_point for collect_point_name, collect_point in self.collect_points.items()
+        collect_points = [collect_point for collect_point_name, collect_point in list(self.collect_points.items())
                           if not only_collect_points or collect_point_name in only_collect_points]
-        backup_points = [backup_point for backup_point_name, backup_point in self.backup_points.items()
+        backup_points = [backup_point for backup_point_name, backup_point in list(self.backup_points.items())
                          if not only_backup_points or backup_point_name in only_backup_points]
         visitor.visit_backup_points(self, backup_points)
         for backup_point in backup_points:
@@ -397,7 +397,7 @@ class Runner(ParameterizedObject):
             self.execute_hook('before_backup', global_cm, {}, {})
             collect_point_results = {}
             backup_point_results = {}
-            for collect_point_name, collect_point in self.collect_points.items():
+            for collect_point_name, collect_point in list(self.collect_points.items()):
                 if only_collect_points and collect_point_name not in only_collect_points:
                     continue
                 assert isinstance(collect_point, CollectPoint)
@@ -418,7 +418,7 @@ class Runner(ParameterizedObject):
                         continue
                     collect_point.execute_hook('after_backup', cm, result=result)
                     cm.copy_content(self.output_temp_fd, close=True)
-                for backup_point_name, backup_point in self.backup_points.items():
+                for backup_point_name, backup_point in list(self.backup_points.items()):
                     if only_backup_points and backup_point_name not in only_backup_points and not skip_backup:
                         continue
                     assert isinstance(backup_point, BackupPoint)
@@ -463,14 +463,14 @@ class Runner(ParameterizedObject):
         :type only_backup_points: :class:`list` of `str`
         :return:
         """
-        for collect_point_name, collect_point in self.collect_points.items():
+        for collect_point_name, collect_point in list(self.collect_points.items()):
             assert isinstance(collect_point, CollectPoint)
             if only_collect_points and collect_point_name not in only_collect_points:
                 continue
             best_backup_point_date = None
             best_backup_point = None
             if not no_backup_point:
-                for backup_point_name, backup_point in self.backup_points.items():
+                for backup_point_name, backup_point in list(self.backup_points.items()):
                     assert isinstance(backup_point, BackupPoint)
                     if only_backup_points and backup_point_name not in only_backup_points:
                         continue

@@ -2,7 +2,7 @@
 """Core shell application.
 Parse arguments and logger, use translated strings.
 """
-from __future__ import unicode_literals
+
 
 import argparse
 import math
@@ -85,8 +85,8 @@ def main(engines_file=None):
                                                                         force=args.force,
                                                                         skip_collect=args.skip_collect,
                                                                         skip_backup=args.skip_backup)
-            collect_point_failures = ['collect_point:%s' % x for (x, y) in collect_point_results.items() if not y]
-            backup_point_failures = ['collect_point:%s/backup_point:%s' % x for (x, y) in backup_point_results.items()
+            collect_point_failures = ['collect_point:%s' % x for (x, y) in list(collect_point_results.items()) if not y]
+            backup_point_failures = ['collect_point:%s/backup_point:%s' % x for (x, y) in list(backup_point_results.items())
                                      if not y]
             if collect_point_failures or backup_point_failures:
                 if args.nrpe:
@@ -185,7 +185,7 @@ def main(engines_file=None):
 
 def display_classes(engines, verbosity=1, width=80):
     """display plugins of a given category"""
-    for name, engine_cls in engines.items():
+    for name, engine_cls in list(engines.items()):
         cprint('  * engine=%s' % name, BOLD, GREEN)
         if engine_cls.__doc__:
             cprint('    ' + engine_cls.__doc__.strip(), GREY, BOLD)

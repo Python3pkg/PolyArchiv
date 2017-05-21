@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, print_function, absolute_import
+
 
 import os
 import re
@@ -11,9 +11,8 @@ try:
     from urllib.parse import urlparse, urlencode, quote_plus
 except ImportError:
     # noinspection PyCompatibility, PyUnresolvedReferences
-    from urlparse import urlparse
-    # noinspection PyUnresolvedReferences
-    from urllib import urlencode, quote_plus
+    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote_plus
 
 __author__ = 'Matthieu Gallet'
 

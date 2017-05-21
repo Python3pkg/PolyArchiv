@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals, print_function
+
 
 import os
 from unittest import TestCase
@@ -15,7 +15,7 @@ class TestEngineParameters(TestCase):
                                     'engines.ini')
         all_engines = Runner.find_available_engines(engines_file)
         for engine_dict in all_engines:
-            for name, engine_cls in engine_dict.items():
+            for name, engine_cls in list(engine_dict.items()):
                 assert issubclass(engine_cls, ParameterizedObject)
                 for param in engine_cls.parameters:
                     assert isinstance(param, Parameter)

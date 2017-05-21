@@ -7,7 +7,7 @@
   * raw files
 
 """
-from __future__ import unicode_literals
+
 
 import grp
 import io
@@ -169,7 +169,7 @@ class MySQL(Source):
             cmd = ['sudo', '-u', self.sudo_user] + cmd
         env = os.environ.copy()
         env.update(self.get_env())
-        for k, v in self.get_env().items():
+        for k, v in list(self.get_env().items()):
             self.print_command('%s=%s' % (k, v))
         if not self.can_execute_command(cmd + ['>', filename]):
             filename = os.devnull  # run the dump even in dry mode
@@ -188,7 +188,7 @@ class MySQL(Source):
             cmd = ['sudo', '-u', self.sudo_user] + cmd
         env = os.environ.copy()
         env.update(self.get_env())
-        for k, v in self.get_env().items():
+        for k, v in list(self.get_env().items()):
             self.print_command('%s=%s' % (k, v))
         # noinspection PyTypeChecker
         with open(filename, 'rb') as fd:

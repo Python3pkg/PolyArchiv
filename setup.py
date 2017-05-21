@@ -13,7 +13,7 @@ try:
     from configparser import RawConfigParser, Error as ConfigError
 except ImportError:
     # noinspection PyUnresolvedReferences,PyCompatibility
-    from ConfigParser import RawConfigParser, Error as ConfigError
+    from configparser import RawConfigParser, Error as ConfigError
 
 version = None
 for line in codecs.open(os.path.join('polyarchiv', '__init__.py'), 'r', encoding='utf-8'):

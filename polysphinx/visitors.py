@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 from collections import OrderedDict
 
@@ -69,7 +69,7 @@ def render_engines_html(self, node, engines, options):
     content += "</dl>"
     if footnotes_indices:
         content += '<ol>'
-        for footnote, index in footnotes_indices.items():
+        for footnote, index in list(footnotes_indices.items()):
             if footnote == '*':
                 content += '<li id="note-%s">this parameter can use variables</li>' % index
             elif footnote == '**':

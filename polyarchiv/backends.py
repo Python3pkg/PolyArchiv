@@ -11,7 +11,7 @@ Authentication methods:
     * file: no auth
 
 """
-from __future__ import unicode_literals
+
 
 import os
 import shlex
@@ -27,9 +27,8 @@ try:
     from urllib.parse import urlparse, urlencode, quote_plus
 except ImportError:
     # noinspection PyCompatibility,PyUnresolvedReferences
-    from urlparse import urlparse
-    # noinspection PyUnresolvedReferences
-    from urllib import urlencode, quote_plus
+    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote_plus
 
 DOWNLOAD_CHUNK_SIZE_BYTES = 1 * 1024 * 1024
 
@@ -276,7 +275,7 @@ class HTTPRequestsStorageBackend(StorageBackend):
         if parsed_url.fragment:
             suffix += '#%s' % parsed_url.fragment
         path = ''
-        path_components = [x for x in filter(lambda y: y, parsed_url.path.split('/'))]
+        path_components = [x for x in [y for y in parsed_url.path.split('/') if y]]
         if not url.endswith('/') and path_components:
             del path_components[-1]
         for path_component in path_components:

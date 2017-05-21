@@ -1,5 +1,5 @@
 # -*- coding=utf-8 -*-
-from __future__ import unicode_literals
+
 
 import codecs
 import datetime
@@ -21,9 +21,8 @@ try:
     from urllib.parse import urlparse, urlencode, quote_plus
 except ImportError:
     # noinspection PyUnresolvedReferences,PyCompatibility
-    from urlparse import urlparse
-    # noinspection PyUnresolvedReferences,PyCompatibility
-    from urllib import urlencode, quote_plus
+    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote_plus
 import os
 
 from polyarchiv.conf import Parameter, strip_split
@@ -102,7 +101,7 @@ class BackupPoint(Point):
             self.print_info('last backup (%s) is still valid but a new backup is forced.' % str(info.last_success))
         lock_ = None
         # collect only (but all) variables that are related to host and time
-        info.variables = {k: v for (k, v) in collect_point.variables.items() if k in self.constant_format_values}
+        info.variables = {k: v for (k, v) in list(collect_point.variables.items()) if k in self.constant_format_values}
         # these variables are required for a valid restore
         cwd = os.getcwd()
         try:
@@ -660,8 +659,8 @@ class RollingTarArchive(TarArchive):
         if self.yearly_count:
             times = self.set_accepted_times(datetime.timedelta(days=365), times,
                                             not_before_time=now - datetime.timedelta(days=self.yearly_count * 365))
-        to_remove_values = [d for (d, v) in times.items() if not v]
-        to_keep_values = [d for (d, v) in times.items() if v]
+        to_remove_values = [d for (d, v) in list(times.items()) if not v]
+        to_keep_values = [d for (d, v) in list(times.items()) if v]
         info.data = [time_to_values[d] for d in reversed(to_keep_values)]
         for data in to_remove_values:
             collect_point.variables = time_to_values[data]
@@ -692,7 +691,7 @@ class RollingTarArchive(TarArchive):
         assert isinstance(ordered_times, OrderedDict)
         previous_time = None
         result = OrderedDict()
-        for current_time, state in ordered_times.items():
+        for current_time, state in list(ordered_times.items()):
             if not_before_time is not None and current_time < not_before_time:
                 result[current_time] = state
             elif not_after_time is not None and current_time > not_after_time:
